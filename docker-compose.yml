@@ -1,55 +1,55 @@
 version: "3.9"
 services:
-    web:
-        image: php:8.2-apache
-        container_name: project_web
-        restart: always
-        ports:
-            - "8080:80"
-        volumes:
-            - ./src:/var/www/html
-        environment:
-            - TZ=Asia/Bangkok
+  web:
+    image: php:8.2-apache
+    container_name: project_web
+    restart: always
+    ports:
+      - "18080:80"
+    volumes:
+      - ./src:/var/www/html
+    environment:
+      - TZ=Asia/Bangkok
 
-    db:
-        image: mysql:8.0
-        container_name: mysql-db
-        restart: always
-        ports:
-            - "3307:3306"
-        environment:
-            MYSQL_ROOT_PASSWORD: root
-            MYSQL_DATABASE: my_database
-            MYSQL_USER: dbuser
-            MYSQL_PASSWORD: dbpassword
-        volumes:
-            - db_data:/var/lib/mysql
+  db:
+    image: mysql:8.0
+    container_name: mysql-db
+    restart: always
+    ports:
+      - "13306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: my_database
+      MYSQL_USER: dbuser
+      MYSQL_PASSWORD: dbpassword
+    volumes:
+      - db_data:/var/lib/mysql
 
-    phpmyadmin:
-        image: phpmyadmin/phpmyadmin
-        restart: always
-        ports:
-            - "8081:80"
-        environment:
-            PMA_HOST: db
-            PMA_PORT: 3306
-            MYSQL_ROOT_PASSWORD: root
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    restart: always
+    ports:
+      - "18090:80"
+    environment:
+      PMA_HOST: db
+      PMA_PORT: 3306
+      MYSQL_ROOT_PASSWORD: root
 
-    backend:
-        build: ./backend
-        container_name: mechanic-kpt
-        ports:
-            - "4000:3000"
-        environment:
-            DB_HOST: db
-            DB_PORT: 3306
-            DB_USER: dbuser
-            DB_PASSWORD: dbpassword
-            DB_NAME: my_database
-        volumes:
-            - ./backend:/app
-            - /app/node_modules
-        depends_on:
-            - db
+  backend:
+    build: ./backend
+    container_name: mechanic-kpt
+    ports:
+      - "14000:3000"
+    environment:
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_USER: dbuser
+      DB_PASSWORD: dbpassword
+      DB_NAME: my_database
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+    depends_on:
+      - db
 volumes:
-    db_data:
+  db_data:
